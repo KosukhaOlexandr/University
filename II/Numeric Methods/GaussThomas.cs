@@ -135,62 +135,6 @@ namespace lab2
             }
             return x;
         }
-        /* static double[] Gauss (double[,] matrix, out bool hasSolution)
-        {
-            int n = matrix.GetLength(0);
-            double [] x = new double[n];
-
-            //Прямий хід
-            for (int k = 0; k < n; k++)
-            {
-                double maxInRow = Math.Abs(matrix[k, k]);
-                int rowForMax = k;
-                for (int j = k + 1; j < n; j++)
-                {
-                    if (Math.Abs(matrix[k, k]) < Math.Abs(matrix[j, k]))
-                    {
-                        rowForMax = j;
-                        maxInRow = matrix[j, k];
-                    }
-                }
-                if (maxInRow == 0)
-                {
-                    hasSolution = false;
-                    return new double[0];
-                }
-
-                if (rowForMax != k)
-                {
-                    for (int j = 0; j < n + 1; j++)
-                    {
-                        double t = matrix[k, j];
-                        matrix[k, j] = matrix[rowForMax, j];
-                        matrix[rowForMax, j] = t;
-                    }
-                }
-                double d = matrix[k, k];
-                for (int j = k; j < n + 1; j++)
-                    matrix[k, j] = matrix[k, j] / d;
-
-                
-                for (int i = k + 1; i < n; i++)
-                {
-                    double coef = matrix[i, k] / matrix[k, k];
-                    for (int j = k; j < n + 1; j++)
-                        matrix[i, j] -= coef * matrix[k, j];
-                }
-            }
-            //Зворотній хід
-            for (int i = n - 1; i >= 0; i--)
-            {
-                x[i] = 0;
-                double t = matrix[i, n];
-                for (int j = n; j > i; j--)
-                    t -= matrix[i, j - 1] * x[j - 1];
-                x[i] = t;
-            }
-            hasSolution = true;
-            return x;
-        }*/
+        
     }
 }
