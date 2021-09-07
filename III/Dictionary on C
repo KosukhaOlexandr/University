@@ -107,7 +107,6 @@ void printMap(Map* map, int work_length)
 void unionMap(Map* map1, int work_len1, Map* map2, int work_len2, Map** result, int* result_worklen, int* result_maxlen)
 {
     //if you have same keys with different values then values from map1 will be preferable
-
     free(*result);
     *result_maxlen = work_len1 + work_len2;
     *result = (Map*) malloc(*result_maxlen*sizeof(Map));
