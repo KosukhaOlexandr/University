@@ -5,4 +5,4 @@ Deque implementation with four operations:
 - deleting from the end
 - deleting from the beginning
 
-insert() and remove() methods are not used to illustrate the C-style implementation of deque
+**insert()** and **remove()** methods are not used to illustrate the C-style implementation of deque
