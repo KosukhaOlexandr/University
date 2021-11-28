@@ -117,6 +117,6 @@ with open('input.txt') as f:
 
 result_file = open("result.txt", 'w')
 for record in pos_avg_temp:
-    for i in range(0, len(record) - 2):
+    for i in range(0, len(record) - 1):
         result_file.write(record[i] + ':')
     result_file.write(record[-1] + '\n')
