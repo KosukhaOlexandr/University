@@ -110,6 +110,8 @@ with open('input.txt') as f:
 
             if avg_temp[-1] == '\n':
                 avg_temp = avg_temp[0:-1]
+            items[9] = avg_temp
+            
             if float(avg_temp) >= 0:
                 pos_avg_temp.append(items)
 
