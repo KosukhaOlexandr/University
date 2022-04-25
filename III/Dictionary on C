@@ -107,10 +107,11 @@ void printMap(Map* map, int work_length)
 void unionMap(Map* map1, int work_len1, Map* map2, int work_len2, Map** result, int* result_worklen, int* result_maxlen)
 {
     //if you have same keys with different values then values from map1 will be preferable
+
     free(*result);
     *result_maxlen = work_len1 + work_len2;
-    *result = (Map*) malloc(*result_maxlen*sizeof(Map));
-
+    //*result = (Map*) malloc(*result_maxlen*sizeof(Map));
+    *result = createMap(*result_maxlen);
     for (int i = 0; i < work_len1; i++)
     {
         (*result)[i] = map1[i];
@@ -135,8 +136,8 @@ void intersectionMap(Map* map1, int work_len1, Map* map2, int work_len2, Map** r
         *result_maxlen = work_len1;
     *result_worklen = 0;
 
-    *result = (Map*) malloc(*result_maxlen*sizeof(Map));
-
+    //*result = (Map*) malloc(*result_maxlen*sizeof(Map));
+    *result = createMap(*result_maxlen);
     int exists = 0;
     for (int i = 0; i < work_len1; i++)
     {
@@ -151,8 +152,8 @@ void differenceMap(Map* map1, int work_len1, Map* map2, int work_len2, Map** res
     //map1 / map2
     free(*result);
     *result_maxlen = work_len1;
-    *result = (Map*) malloc(*result_maxlen*sizeof(Map));
-
+    //*result = (Map*) malloc(*result_maxlen*sizeof(Map));
+    *result = createMap(*result_maxlen);
     for (int i = 0; i < work_len1; i++)
     {
         (*result)[i] = map1[i];
@@ -164,6 +165,29 @@ void differenceMap(Map* map1, int work_len1, Map* map2, int work_len2, Map** res
     }
 }
 
+void symmetricdifferenceMap(Map* map1, int work_len1, Map* map2, int work_len2, Map** result, int* result_worklen, int* result_maxlen)
+{
+    // map1^map2 = (map1 \ map2)U(map2 \ map1)
+
+    //map1 \ map2 as left_diff
+    int left_diff_worklen = 0;
+    int left_diff_maxlen = 1;
+    Map* left_diff = createMap(left_diff_maxlen);
+    differenceMap(map1, work_len1, map2, work_len2, &left_diff, &left_diff_worklen, &left_diff_maxlen);
+
+    //map2 \ map1 as right_diff
+    int right_diff_worklen = 0;
+    int right_diff_maxlen = 1;
+    Map* right_diff = createMap(right_diff_maxlen);
+    differenceMap(map2, work_len2, map1, work_len1, &right_diff, &right_diff_worklen, &right_diff_maxlen);
+
+    //left_diff U right_diff
+    free(*result);
+    *result_maxlen = left_diff_worklen + right_diff_worklen;
+    *result_worklen = 0;
+    *result = createMap(*result_maxlen);
+    unionMap(left_diff, left_diff_worklen, right_diff, right_diff_worklen, result, result_worklen, result_maxlen);
+}
 void demonstrateOp(Map* map1, int work_len1, Map* map2, int work_len2, Map** result, int result_worklen)
 {
     printf("First map: \n");
@@ -243,5 +267,21 @@ int main()
     printf("Difference demonstration:\n");
     demonstrateOp(map1, map1_worklen, map4, map4_worklen, diff_test, diff_worklen);
 
+    //symmetric difference demostration
+    int map5_worklen = 0;
+    int map5_maxlen = 5;
+    Map* map5 = createMap(map5_maxlen);
+    add(&map5, &map5_worklen, &map5_maxlen, "Occupation", "Lviv");
+    add(&map5, &map5_worklen, &map5_maxlen, "Country", "Ukraine");
+    add(&map5, &map5_worklen, &map5_maxlen, "Education", "Lviv Polytechnic");
+    add(&map5, &map5_worklen, &map5_maxlen, "Profession", "Gangstar");
+
+    int symdiff_worklen = 0;
+    int symdiff_maxlen = 1;
+    Map* symdiff = createMap(symdiff_maxlen);
+    symmetricdifferenceMap(map1, map1_worklen, map5, map5_worklen, &symdiff, &symdiff_worklen, &symdiff_maxlen);
+
+    printf("Symmetric difference demonstration:\n");
+    demonstrateOp(map1, map1_worklen, map5, map5_worklen, symdiff, symdiff_worklen);
     return 0;
 }
