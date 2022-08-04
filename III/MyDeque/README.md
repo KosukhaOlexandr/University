@@ -1,4 +1,4 @@
-# Custom deque implementation on Python
+# Custom deque implementation in Python
 Deque implementation with four operations:
 - adding to the end
 - adding to the beginng
